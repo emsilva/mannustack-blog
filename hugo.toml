@@ -29,16 +29,16 @@ showtoc = true
 tocopen = false
 
 [params.homeInfoParams]
-Title = "Welcome to Your Blog"
+Title = "Mannu's Stack"
 Content = "Your blog introduction text here"
 
 [[params.socialIcons]]
 name = "github"
-url = "https://github.com/yourusername"
+url = "https://github.com/emsilva"
 
-[[params.socialIcons]]
-name = "twitter"
-url = "https://twitter.com/yourusername"
+#[[params.socialIcons]]
+#name = "twitter"
+#url = "https://twitter.com/emsilva"
 
 [menu]
 [[menu.main]]
@@ -52,3 +52,9 @@ identifier = "tags"
 name = "Tags"
 url = "/tags/"
 weight = 20
+
+[[menu.main]]
+identifier = "about"
+name = "About"
+url = "/about/"
+weight = 30
