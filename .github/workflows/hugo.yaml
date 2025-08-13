@@ -24,30 +24,34 @@ jobs:
     env:
       HUGO_VERSION: 0.148.2
     steps:
-      - name: Install Hugo CLI
-        run: |
-          wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v$\{HUGO_VERSION\}/hugo_extended_$\{HUGO_VERSION\}_linux-amd64.deb \
-          && sudo dpkg -i ${{ runner.temp }}/hugo.deb
-      
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
-      
+
+      - name: Install Hugo CLI
+        run: |
+          set -euxo pipefail
+          curl -L -o "${RUNNER_TEMP}/hugo.deb" \
+            "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb"
+          sudo dpkg -i "${RUNNER_TEMP}/hugo.deb"
+          hugo version
+
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v4
-      
+
       - name: Build with Hugo
         env:
           HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
           HUGO_ENVIRONMENT: production
         run: |
-          hugo \
-            --gc \
-            --minify \
-            --baseURL "${{ steps.pages.outputs.base_url }}/"
-      
+          set -euxo pipefail
+          # If you've already set a custom domain in GitHub Pages, you can hardcode baseURL:
+          # hugo --gc --minify --baseURL "https://mannustack.dev/"
+          hugo --gc --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
+          test -d public && ls -la public | head -50
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -63,3 +67,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
