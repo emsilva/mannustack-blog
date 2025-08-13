@@ -1,7 +1,22 @@
 baseURL = 'https://mannustack.dev/'
 languageCode = 'en-us'
-title = 'Your Blog Title'
+title = "Mannu's Stack - Technology Leadership & Innovation"
 theme = 'PaperMod'
+
+# SEO and metadata
+[params.fuseOpts]
+isCaseSensitive = false
+shouldSort = true
+location = 0
+distance = 1000
+threshold = 0.4
+minMatchCharLength = 0
+keys = ["title", "permalink", "summary", "content"]
+
+[markup]
+[markup.goldmark]
+[markup.goldmark.renderer]
+unsafe = true
 
 [pagination]
 pagerSize = 10
@@ -9,9 +24,14 @@ pagerSize = 10
 [params]
 env = "production"
 title = "Mannu's Stack"
-description = "Your blog description"
+keywords = ["technology leadership", "enterprise architecture", "digital transformation", "innovation", "Kyndryl", "IBM", "engineering management", "automation", "cloud platforms"]
 author = "Mannu Silva"
-defaultTheme = "auto"  # auto, light or dark
+images = ["https://mannustack.dev/images/og-image.png"]
+DateFormat = "January 2, 2006"
+defaultTheme = "auto"
+disableThemeToggle = false
+
+# Features
 ShowReadingTime = true
 ShowShareButtons = true
 ShowPostNavLinks = true
@@ -28,17 +48,62 @@ hideSummary = false
 showtoc = true
 tocopen = false
 
-[params.homeInfoParams]
-Title = "Mannu's Stack"
-Content = "Your blog introduction text here"
+# Configure share buttons on posts
+ShareButtons = ["twitter", "linkedin", "reddit", "facebook", "whatsapp", "telegram", "pinterest", "github"]
+
+# Search
+ShowSearchPage = true
+ShowAllPagesInArchive = true
+
+# Custom CSS colors and styling
+[params.assets]
+disableHLJS = false
+disableFingerprinting = false
+favicon = "/favicon.ico"
+favicon16x16 = "/favicon-16x16.png"
+favicon32x32 = "/favicon-32x32.png"
+apple_touch_icon = "/apple-touch-icon.png"
+safari_pinned_tab = "/safari-pinned-tab.svg"
+
+# Professional color scheme
+[params.profileMode]
+enabled = false
+title = "Mannu Silva"
+subtitle = "Director of Engineering | Technology Leader"
+imageUrl = "images/profile.jpg"
+imageWidth = 120
+imageHeight = 120
+
 
 [[params.socialIcons]]
 name = "github"
 url = "https://github.com/emsilva"
 
-#[[params.socialIcons]]
-#name = "twitter"
-#url = "https://twitter.com/emsilva"
+[[params.socialIcons]]
+name = "linkedin"
+url = "https://www.linkedin.com/in/emannuel-silva/"
+
+
+
+# Custom color variables (will be applied through theme)
+[params.variables]
+# Light mode colors
+light-primary = "#1e3a8a"      # Deep professional blue
+light-secondary = "#06b6d4"    # Electric cyan accent
+light-tertiary = "#64748b"     # Slate gray
+light-content = "#0f172a"      # Dark slate for text
+light-background = "#fafafa"   # Off-white background
+light-border = "#e2e8f0"       # Light gray border
+light-code-bg = "#f1f5f9"      # Light code background
+
+# Dark mode colors  
+dark-primary = "#60a5fa"       # Bright blue
+dark-secondary = "#22d3ee"     # Bright cyan
+dark-tertiary = "#94a3b8"      # Light slate
+dark-content = "#f8fafc"       # Nearly white text
+dark-background = "#0f172a"    # Deep dark background
+dark-border = "#334155"        # Dark border
+dark-code-bg = "#1e293b"       # Dark code background
 
 [menu]
 [[menu.main]]
