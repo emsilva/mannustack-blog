@@ -2,6 +2,17 @@
   // Only load Mermaid if there are mermaid diagrams on the page
   if (document.querySelector('.mermaid')) {
     const mermaid = await import('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs');
-    mermaid.default.initialize({ startOnLoad: true });
+    mermaid.default.initialize({ 
+      startOnLoad: false,
+      theme: 'default',
+      themeVariables: {
+        primaryColor: '#4ecdc4',
+        primaryTextColor: '#0f172a',
+        primaryBorderColor: '#06b6d4',
+        lineColor: '#64748b'
+      }
+    });
+    // Manually render all mermaid diagrams
+    mermaid.default.run();
   }
 </script>
