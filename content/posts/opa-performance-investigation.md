@@ -356,7 +356,7 @@ grep -E "P95|Requests/Sec" ./results/*.txt
 
 ## Acknowledgements
 
-Claude Code helped scaffold the automation and benchmarking harness. AI assistance made the environment reproducible; the measurements are mine.
+AI helped scaffold the automation and benchmarking harness. AI assistance made the environment reproducible; the measurements are mine.
 
 ---
 
