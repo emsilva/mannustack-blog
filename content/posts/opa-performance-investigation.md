@@ -8,8 +8,6 @@ summary: "What happens when you stop guessing and measure? A systematic, reprodu
 author: "Mannu Silva"
 ---
 
-# The OPA Performance Investigation: A Systematic Journey Through Policy Optimization
-
 Someone in a meeting asked whether OPA could handle our performance requirements. I could've argued, waved a doc link, and moved on. That's not how I work. If we're going to bet architecture on a tool, we test it until the numbers either back us up—or prove us wrong.
 
 ## Executive Summary

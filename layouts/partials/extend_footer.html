@@ -1,6 +1,7 @@
-{{ if findRE "class=\"mermaid\"" .Content }}
 <script type="module">
-  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
-  mermaid.initialize({ startOnLoad: true });
+  // Only load Mermaid if there are mermaid diagrams on the page
+  if (document.querySelector('.mermaid')) {
+    const mermaid = await import('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs');
+    mermaid.default.initialize({ startOnLoad: true });
+  }
 </script>
-{{ end }}
