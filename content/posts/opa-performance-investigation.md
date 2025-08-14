@@ -161,7 +161,7 @@ graph TB
 
 Short, simple evaluations hit context-switch overhead fast. Heavier policies benefit from parallelism longer.
 
-**200-Iteration Concurrency Sweep**
+**100-Iteration Concurrency Sweep**
 
 | Policy                   | Workers | Requests/Sec | P50 (ms) | P95 (ms) | P99 (ms) | Scaling | Notes                               |
 |--------------------------|---------|--------------|----------|----------|----------|---------|--------------------------------------|
@@ -180,7 +180,7 @@ Short, simple evaluations hit context-switch overhead fast. Heavier policies ben
 
 WASM reduces interpreter overhead but adds marshalling/FFI cost. That trade-off only pays with heavier policies.
 
-**500-Iteration Microbench**
+**100-Iteration Microbench**
 
 | Policy                   | Mode  | Requests/Sec | P50 (ms) | P95 (ms) | P99 (ms) | Improvement |
 |--------------------------|-------|--------------|----------|----------|----------|-------------|
@@ -204,7 +204,7 @@ OPA's profiler highlighted hot spots. I applied targeted changes:
 - **Lookup tables** (replace if/else chains)
 - **Rule ordering** (common cases first)
 
-**1000-Iteration Results**
+**100-Iteration Results**
 
 | Policy                   | Version   | Requests/Sec | P50 (ms) | P95 (ms) | P99 (ms) | Improvement |
 |--------------------------|-----------|--------------|----------|----------|----------|-------------|
@@ -223,20 +223,37 @@ OPA's profiler highlighted hot spots. I applied targeted changes:
 
 Same policies, scaled out on EKS.
 
-```mermaid
-graph TB
-    A[Financial Risk Assessment: CLI] --> B[74.62 req/s]
-    B --> C[Server] --> D[277.77 req/s]
-    D --> E[Server + WASM] --> F[318.39 req/s]
-    F --> G[K8s 3-node] --> H[600 req/s]
-    H --> I[K8s 4-node] --> J[816 req/s]
-    
-    style A fill:#ff6b6b
-    style D fill:#4ecdc4
-    style F fill:#45b7d1
-    style H fill:#96ceb4
-    style J fill:#feca57
-```
+<div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
+  <h4 style="margin-top: 0; color: #1e293b;">Financial Risk Assessment Performance Progression</h4>
+  <div style="display: flex; align-items: end; height: 200px; gap: 8px; margin: 20px 0;">
+    <div style="display: flex; flex-direction: column; align-items: center;">
+      <div style="background: #ff6b6b; width: 40px; height: 18px; margin-bottom: 5px; border-radius: 2px;"></div>
+      <div style="font-size: 12px; font-weight: bold;">74.6</div>
+      <div style="font-size: 10px; text-align: center; width: 60px;">CLI</div>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+      <div style="background: #4ecdc4; width: 40px; height: 67px; margin-bottom: 5px; border-radius: 2px;"></div>
+      <div style="font-size: 12px; font-weight: bold;">277.8</div>
+      <div style="font-size: 10px; text-align: center; width: 60px;">Server</div>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+      <div style="background: #45b7d1; width: 40px; height: 77px; margin-bottom: 5px; border-radius: 2px;"></div>
+      <div style="font-size: 12px; font-weight: bold;">318.4</div>
+      <div style="font-size: 10px; text-align: center; width: 60px;">Server + WASM</div>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+      <div style="background: #96ceb4; width: 40px; height: 145px; margin-bottom: 5px; border-radius: 2px;"></div>
+      <div style="font-size: 12px; font-weight: bold;">600</div>
+      <div style="font-size: 10px; text-align: center; width: 60px;">K8s 3-node</div>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+      <div style="background: #feca57; width: 40px; height: 197px; margin-bottom: 5px; border-radius: 2px;"></div>
+      <div style="font-size: 12px; font-weight: bold;">816</div>
+      <div style="font-size: 10px; text-align: center; width: 60px;">K8s 4-node</div>
+    </div>
+  </div>
+  <div style="font-size: 11px; color: #64748b; text-align: center;">Requests/Second (higher is better)</div>
+</div>
 
 **3-Node EKS (c6i.xlarge; 4 vCPU, 8 GiB each)**
 
@@ -330,18 +347,18 @@ Kubernetes wins on **horizontal headroom** and consistency. Single-node local ca
 make build
 
 # CLI vs Server (foundation)
-make opa-cli-benchmark ITERATIONS=1000
-make opa-server-benchmark ITERATIONS=1000
+make opa-cli-benchmark ITERATIONS=100
+make opa-server-benchmark ITERATIONS=100
 
 # Concurrency sweep
-make opa-concurrent-benchmark ITERATIONS=200
+make opa-concurrent-benchmark ITERATIONS=100
 
 # WASM (builds OPA from source)
-make opa-wasm-benchmark ITERATIONS=500
+make opa-wasm-benchmark ITERATIONS=100
 
 # Profile + optimize
 make opa-profiling-benchmark ITERATIONS=100
-make opa-optimization-benchmark ITERATIONS=1000
+make opa-optimization-benchmark ITERATIONS=100
 ```
 
 **Kubernetes**
