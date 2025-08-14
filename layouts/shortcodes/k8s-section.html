@@ -1,0 +1,43 @@
+<!-- Kubernetes section container with subtle background -->
+<div class="k8s-section" style="
+  position: relative;
+  margin: 24px 0;
+  padding: 20px;
+  background: rgba(148,163,184,0.08);
+  border-radius: 12px;
+  border: 1px solid rgba(148,163,184,0.15);
+">
+  <!-- Kubernetes badge -->
+  <div style="
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    background: rgba(59,130,246,0.1);
+    color: #1e40af;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font: 500 9px/1 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border: 1px solid rgba(59,130,246,0.2);
+  ">
+    ☸️ Kubernetes
+  </div>
+
+  <!-- Content slot -->
+  {{ .Inner }}
+</div>
+
+<style>
+@media (prefers-color-scheme: dark) {
+  .k8s-section {
+    background: rgba(30,41,59,0.35) !important;
+    border-color: rgba(71,85,105,0.3) !important;
+  }
+  .k8s-section div[style*="background: rgba(59,130,246,0.1)"] {
+    background: rgba(56,189,248,0.15) !important;
+    color: #38bdf8 !important;
+    border-color: rgba(56,189,248,0.3) !important;
+  }
+}
+</style>
