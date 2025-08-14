@@ -4,95 +4,127 @@
   <style>
     .opa-chart{
       --max:816;           /* highest value shown */
-      --h:220px;           /* chart height */
-      --gap:12px;          /* space between bars */
-      --bar-w:56px;        /* bar width (auto shrinks on small screens) */
-      --radius:10px;
-      --bg:rgba(148,163,184,.15);
+      --h:180px;           /* chart height */
+      --gap:8px;           /* space between bars */
+      --bar-w:48px;        /* bar width (auto shrinks on small screens) */
+      --radius:6px;
+      --bg:rgba(148,163,184,.12);
       --fg:#0f172a;
       --muted:#64748b;
       --grad1:#60a5fa;     /* light mode gradient */
       --grad2:#3b82f6;
+      --grid-color:rgba(100,116,139,.3);
     }
     @media (max-width:640px){
-      .opa-chart{ --bar-w:44px; --gap:10px; --h:200px; }
+      .opa-chart{ --bar-w:36px; --gap:6px; --h:160px; }
     }
     @media (prefers-color-scheme:dark){
       .opa-chart{
-        --bg:rgba(30,41,59,.45);
+        --bg:rgba(30,41,59,.35);
         --fg:#e2e8f0;
         --muted:#94a3b8;
         --grad1:#38bdf8;   /* dark mode gradient */
         --grad2:#0ea5e9;
+        --grid-color:rgba(148,163,184,.25);
       }
     }
     .oc-wrap{
       display:grid;
-      grid-template-rows:auto 1fr auto auto;
-      gap:12px;
+      grid-template-rows:auto 1fr auto;
+      gap:8px;
       background:var(--bg);
-      border-radius:14px;
-      padding:16px;
+      border-radius:12px;
+      padding:12px;
+      position:relative;
     }
     .oc-title{
       margin:0;
-      font:600 14px/1.3 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      font:600 11px/1.2 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color:var(--fg);
-      letter-spacing:.2px;
+      letter-spacing:.3px;
+      text-align:center;
     }
-    .oc-bars{
+    .oc-chart-area{
       position:relative;
+      height:var(--h);
       display:flex;
       align-items:flex-end;
       gap:var(--gap);
-      height:var(--h);
-      padding:8px 4px 0;
+      padding:0 8px;
     }
-    /* subtle reference grid */
-    .oc-bars::before, .oc-bars::after{
+    /* Grid lines with labels */
+    .oc-chart-area::before, .oc-chart-area::after{
       content:"";
-      position:absolute; left:0; right:0;
-      border-top:1px dashed rgba(100,116,139,.4);
+      position:absolute; 
+      left:8px; right:8px;
+      border-top:1px dashed var(--grid-color);
       pointer-events:none;
     }
-    .oc-bars::before{ top:25%; }
-    .oc-bars::after{  top:50%; }
+    .oc-chart-area::before{ 
+      top:50%;  /* 408 line */
+    }
+    .oc-chart-area::after{  
+      top:75%;  /* 612 line */
+    }
+    /* Grid labels positioned at lines */
+    .oc-grid-labels{
+      position:absolute;
+      left:0; right:0; top:0; bottom:0;
+      pointer-events:none;
+    }
+    .oc-grid-label{
+      position:absolute;
+      right:2px;
+      font:500 8px/1 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--muted);
+      background:var(--bg);
+      padding:1px 3px;
+      border-radius:2px;
+    }
+    .oc-grid-label:nth-child(1){ bottom:0; }      /* 0 */
+    .oc-grid-label:nth-child(2){ bottom:50%; }    /* 408 */
+    .oc-grid-label:nth-child(3){ bottom:75%; }    /* 612 */
+    .oc-grid-label:nth-child(4){ bottom:100%; }   /* 816 */
 
     .oc-bar{
       width:var(--bar-w);
       display:flex;
       flex-direction:column;
       align-items:center;
-      justify-content:flex-end;
-      gap:8px;
+      gap:4px;
       color:var(--fg);
       text-align:center;
+      /* Fixed height container for labels to prevent alignment issues */
+      padding-bottom:28px;
     }
     .oc-pill{
       width:100%;
       height:calc(var(--v) / var(--max) * var(--h));
       background:linear-gradient(180deg, var(--grad1), var(--grad2));
       border-radius:var(--radius);
-      box-shadow:0 2px 6px rgba(2,6,23,.12), inset 0 -1px 0 rgba(255,255,255,.25);
-      transition:transform .15s ease;
+      box-shadow:0 1px 3px rgba(2,6,23,.1), inset 0 -1px 0 rgba(255,255,255,.2);
+      transition:transform .12s ease;
+      margin-bottom:3px;
     }
-    .oc-pill:hover{ transform:translateY(-2px); }
+    .oc-pill:hover{ transform:translateY(-1px); }
     .oc-val{
-      font:600 12px/1 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font:600 9px/1 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin-bottom:1px;
     }
     .oc-label{
-      font:500 11px/1.2 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font:500 8px/1.1 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color:var(--muted);
-      max-width:80px;
-    }
-    .oc-scale{
-      display:flex; justify-content:space-between;
-      font:500 11px/1 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color:var(--muted);
-      padding:0 4px;
+      /* Fixed height container to prevent alignment issues */
+      height:20px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      word-break:break-word;
+      hyphens:auto;
     }
     .oc-caption{
-      font:500 11px/1.3 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font:500 8px/1.2 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color:var(--muted);
       text-align:center;
       margin-top:2px;
@@ -100,9 +132,16 @@
   </style>
 
   <div class="oc-wrap">
-    <h4 class="oc-title">Financial Risk Assessment — Requests/sec (higher is better)</h4>
+    <h4 class="oc-title">Financial Risk Assessment — Requests/sec</h4>
 
-    <div class="oc-bars">
+    <div class="oc-chart-area">
+      <div class="oc-grid-labels">
+        <div class="oc-grid-label">0</div>
+        <div class="oc-grid-label">408</div>
+        <div class="oc-grid-label">612</div>
+        <div class="oc-grid-label">816</div>
+      </div>
+
       <div class="oc-bar" style="--v:74.6">
         <div class="oc-pill" title="CLI: 74.6 req/s" aria-hidden="true"></div>
         <div class="oc-val">74.6</div>
@@ -118,23 +157,22 @@
       <div class="oc-bar" style="--v:318.4">
         <div class="oc-pill" title="Server + WASM: 318.4 req/s" aria-hidden="true"></div>
         <div class="oc-val">318.4</div>
-        <div class="oc-label">Server + WASM</div>
+        <div class="oc-label">Srv+WASM</div>
       </div>
 
       <div class="oc-bar" style="--v:600">
         <div class="oc-pill" title="K8s 3-node: 600 req/s" aria-hidden="true"></div>
         <div class="oc-val">600</div>
-        <div class="oc-label">K8s 3-node</div>
+        <div class="oc-label">K8s 3n</div>
       </div>
 
       <div class="oc-bar" style="--v:816">
         <div class="oc-pill" title="K8s 4-node: 816 req/s" aria-hidden="true"></div>
         <div class="oc-val">816</div>
-        <div class="oc-label">K8s 4-node</div>
+        <div class="oc-label">K8s 4n</div>
       </div>
     </div>
 
-    <div class="oc-scale"><span>0</span><span>≈408</span><span>816</span></div>
-    <div class="oc-caption">Values scaled to max (816). Grid lines at 50% and 75% height.</div>
+    <div class="oc-caption">Higher is better • Grid: 0, 408, 612, 816 req/s</div>
   </div>
 </div>

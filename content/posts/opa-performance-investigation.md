@@ -46,13 +46,13 @@ So I turned a weekend project into a full test suite and pushed OPA through ever
 OPA evaluates rules written in **Rego** against input data to make decisions. The core loop is simple; the trade-offs appear in how you deploy and optimize it.
 
 ```mermaid
-graph TD
-    A[Input Request] --> B[OPA Engine]
-    B --> C[Rego Policies]
-    B --> D[Data Sources]
-    C --> E[Policy Evaluation]
+graph LR
+    A[Input] --> B[OPA Engine]
+    B --> C[Rego Rules]
+    B --> D[Data]
+    C --> E[Eval]
     D --> E
-    E --> F[Allow/Deny Decision]
+    E --> F[Decision]
     F --> G[Response]
 ```
 
@@ -63,12 +63,12 @@ graph TD
 
 ```mermaid
 graph LR
-    A[Rego Source] --> B[OPA Compiler]
-    B --> C[Bundle Format]
-    B --> D[WebAssembly Module]
+    A[Rego] --> B[Compiler]
+    B --> C[Bundle]
+    B --> D[WASM]
     C --> E[HTTP Server]
     D --> F[WASM Runtime]
-    E --> G[Policy Decision]
+    E --> G[Decision]
     F --> G
 ```
 
@@ -130,16 +130,16 @@ Same three policies. Same data. Only the deployment/optimization changes.
 Server mode removes process start/teardown and keeps policies warm. The gains grow with policy complexity.
 
 ```mermaid
-graph TB
-    subgraph "CLI Mode"
-        A[Policy Request] --> B[OPA Process Startup]
-        B --> C[Policy Loading]
-        C --> D[Evaluation]
-        D --> E[Result Output]
-        E --> F[Process Termination]
+graph LR
+    subgraph CLI["CLI Mode"]
+        A[Request] --> B[Start Process]
+        B --> C[Load Policy]
+        C --> D[Evaluate]
+        D --> E[Output]
+        E --> F[Terminate]
     end
-    subgraph "Server Mode"
-        G[HTTP Request] --> H[Policy Evaluation]
+    subgraph SRV["Server Mode"]
+        G[HTTP Request] --> H[Evaluate]
         H --> I[HTTP Response]
     end
 ```

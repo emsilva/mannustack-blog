@@ -5,14 +5,65 @@
     mermaid.default.initialize({ 
       startOnLoad: false,
       theme: 'default',
+      fontFamily: 'system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif',
       themeVariables: {
-        primaryColor: '#4ecdc4',
+        fontFamily: 'system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif',
+        fontSize: '11px',
+        primaryColor: '#e0f2fe',
         primaryTextColor: '#0f172a',
-        primaryBorderColor: '#06b6d4',
-        lineColor: '#64748b'
+        primaryBorderColor: '#0369a1',
+        lineColor: '#0369a1',
+        secondaryColor: '#f1f5f9',
+        tertiaryColor: '#f8fafc',
+        background: '#ffffff',
+        mainBkg: '#e0f2fe',
+        secondBkg: '#f1f5f9',
+        tertiaryTextColor: '#64748b'
+      },
+      flowchart: {
+        nodeSpacing: 20,
+        rankSpacing: 40,
+        curve: 'basis',
+        padding: 8,
+        useMaxWidth: true,
+        htmlLabels: true
       }
     });
     // Manually render all mermaid diagrams
     mermaid.default.run();
+
+    // Add consistent styling to all mermaid diagrams
+    setTimeout(() => {
+      document.querySelectorAll('.mermaid svg').forEach(svg => {
+        svg.style.maxWidth = '100%';
+        svg.style.height = 'auto';
+        svg.style.background = 'rgba(248,250,252,0.8)';
+        svg.style.borderRadius = '8px';
+        svg.style.padding = '12px';
+        svg.style.border = '1px solid #e2e8f0';
+        svg.style.marginBottom = '16px';
+        
+        // Ensure consistent dark mode support
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          svg.style.background = 'rgba(30,41,59,0.8)';
+          svg.style.border = '1px solid #475569';
+        }
+      });
+      
+      // Listen for theme changes
+      if (window.matchMedia) {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+          document.querySelectorAll('.mermaid svg').forEach(svg => {
+            if (e.matches) {
+              svg.style.background = 'rgba(30,41,59,0.8)';
+              svg.style.border = '1px solid #475569';
+            } else {
+              svg.style.background = 'rgba(248,250,252,0.8)';
+              svg.style.border = '1px solid #e2e8f0';
+            }
+          });
+        });
+      }
+    }, 100);
   }
 </script>
