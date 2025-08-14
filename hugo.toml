@@ -1,4 +1,4 @@
-baseURL = 'https://mannustack.dev/'
+baseURL = 'https://mannustack.com/'
 languageCode = 'en-us'
 title = "Mannu's Stack - Technology Leadership & Innovation"
 theme = 'PaperMod'
@@ -26,7 +26,7 @@ env = "production"
 title = "Mannu's Stack"
 keywords = ["technology leadership", "enterprise architecture", "digital transformation", "innovation", "Kyndryl", "IBM", "engineering management", "automation", "cloud platforms"]
 author = "Mannu Silva"
-images = ["https://mannustack.dev/images/og-image.png"]
+images = ["https://mannustack.com/images/og-image.png"]
 DateFormat = "January 2, 2006"
 defaultTheme = "auto"
 disableThemeToggle = false
