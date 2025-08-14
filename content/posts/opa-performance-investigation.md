@@ -210,8 +210,6 @@ OPA's profiler highlighted hot spots. I applied targeted changes:
 
 ---
 
-{{< k8s-section >}}
-
 ### Cloud Impact (Kubernetes Is Where It Gets Fun)
 
 Same policies, scaled out on EKS.
@@ -237,8 +235,6 @@ Same policies, scaled out on EKS.
 > Per-node EKS throughput (~200 req/s) trails a single well-provisioned local server (277.77 req/s) because: network hops, pod limits (e.g., **800m CPU**, 1 GiB RAM), and CNI/runtime overhead. Normalized: **~50–70 req/s per vCPU** in this setup.
 
 **Scaling Read:** Adding 1 node to 3 (→ 4 total) is a **33%** capacity bump. Observed gains **1.23×–1.42×** are near-linear (ideal would be **1.33×**).
-
-{{< /k8s-section >}}
 
 ---
 
