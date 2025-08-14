@@ -23,7 +23,6 @@ Someone in a meeting asked whether OPA could handle our performance requirements
 
 **Key Insights**
 - **Predictable latency shape:** P95 typically 30–50% higher than P50 (**P95 ≈ 1.36–1.49× P50** across modes). Good news for SLOs.
-- **Measurement trap:** Apache Bench happily counted HTTP errors as "success" during early tests—would've invalidated the study if not caught. Always verify what your tool is actually measuring.
 
 ---
 
