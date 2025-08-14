@@ -131,17 +131,8 @@ Server mode removes process start/teardown and keeps policies warm. The gains gr
 
 ```mermaid
 graph LR
-    subgraph CLI["CLI Mode"]
-        A[Request] --> B[Start Process]
-        B --> C[Load Policy]
-        C --> D[Evaluate]
-        D --> E[Output]
-        E --> F[Terminate]
-    end
-    subgraph SRV["Server Mode"]
-        G[HTTP Request] --> H[Evaluate]
-        H --> I[HTTP Response]
-    end
+    A[CLI: Request] --> B[Start] --> C[Load] --> D[Eval] --> E[Output] --> F[End]
+    G[Server: Request] --> H[Eval] --> I[Response]
 ```
 
 | Policy                   | Mode   | Requests/Sec | P50 (ms) | P95 (ms) | P99 (ms) | Improvement     |
@@ -223,7 +214,7 @@ OPA's profiler highlighted hot spots. I applied targeted changes:
 
 Same policies, scaled out on EKS.
 
-{{< opa-chart >}}
+{{< performance-chart >}}
 
 **3-Node EKS (c6i.xlarge; 4 vCPU, 8 GiB each)**
 
