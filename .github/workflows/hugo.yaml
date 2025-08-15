@@ -48,7 +48,7 @@ jobs:
         run: |
           set -euxo pipefail
           # If you've already set a custom domain in GitHub Pages, you can hardcode baseURL:
-          # hugo --gc --minify --baseURL "https://mannustack.com/"
+          # hugo --gc --minify --baseURL "https://emsilva.github.io/mannustack-blog/"
           hugo --gc --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
           test -d public && ls -la public | head -50
 
