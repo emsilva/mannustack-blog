@@ -12,7 +12,7 @@ Someone in a meeting asked whether OPA could handle our performance requirements
 
 ## Executive Summary
 
-**TL;DR:** OPA is fast—measured, reproducible, stress-tested fast. With the right deployment, complex policies went from **74.62 req/s** (CLI, **P95 = 18.29 ms**) to **816 req/s** (4-node Kubernetes, **P95 = 4.9 ms**).
+**TL;DR:** OPA is fast—measured, reproducible, stress-tested fast. With the right deployment, complex policies went from **74.62 req/s** (CLI, **P95 = 18.29 ms**) to **816 req/s** (4-node Kubernetes, **P95 = 4.9 ms**) (see [Performance Primer](#performance-primer)).
 
 **Headline Numbers**
 - **Server mode:** 2.4×–3.7× faster than CLI (**P95:** 3.57 ms vs 8.21 ms for simple RBAC)
@@ -22,7 +22,7 @@ Someone in a meeting asked whether OPA could handle our performance requirements
 - **Kubernetes:** **10–11×** faster than CLI on the complex policy (816 vs 74.62 req/s)
 
 **Key Insights**
-- **Predictable latency shape:** P95 typically 30–50% higher than P50 (**P95 ≈ 1.36–1.49× P50** across modes). Good news for SLOs.
+- **Predictable latency shape:** P95 typically 30–50% higher than P50 (**P95 ≈ 1.36–1.49× P50** across modes). Good news for SLOs (see [Performance Primer](#performance-primer)).
 
 ---
 
@@ -37,6 +37,20 @@ We were evaluating OPA for a high-throughput policy service. The usual questions
 Plenty of opinions. Not enough data. The docs call OPA "high-performance," but that's not a number. Blog posts tend to show toy examples or abstract strategy. I wanted production-adjacent answers.
 
 So I turned a weekend project into a full test suite and pushed OPA through every deployment mode and optimization I could justify. This write-up is what I found—numbers, not vibes.
+
+---
+
+## Performance Primer (Why P50, P95, and P99 Matter) {#performance-primer}
+
+You'll see P50, P95, and P99 throughout this post. They're percentiles—and they tell different stories:
+
+- **P50** (median): your "typical" request—half are faster, half slower.
+- **P95**: 95% of requests are faster than this. The slow tail starts here.
+- **P99**: the rare slugs. Users feel these when the system *seems* slow.
+
+Why percentiles? Because averages lie. A service with P50 = 5 ms but P99 = 500 ms can still feel sluggish under load. Percentiles show how the system behaves **most** of the time *and* how bad the tail gets. For these benchmarks, **P95** is the main SLO lens—sensitive to tail issues without overreacting to a freak outlier.
+
+*Further reading:* Dean & Barroso on tail latency and why P99+ matters; Google SRE on SLIs/SLOs and percentile targets.
 
 ---
 
@@ -94,7 +108,7 @@ Same policies, same datasets—only deployment knobs change. That isolates the i
 - OPA **v1.7.1** across all modes
 - Docker for reproducible local tests
 - Kubernetes (EKS) for cloud validation
-- Each data point = mean of **5 runs**; **σ < 7%** unless noted
+- Each data point = average of five benchmark runs, each with 100 iterations. Standard deviation across runs was < 7% unless noted.
 
 ---
 
@@ -126,7 +140,7 @@ Same three policies. Same data. Only the deployment/optimization changes.
 
 ### CLI vs Server Mode
 
-Server mode removes process start/teardown and keeps policies warm. The gains grow with policy complexity.
+Server mode removes process start/teardown and keeps policies warm. The gains grow with policy complexity (see [Performance Primer](#performance-primer) for percentile definitions).
 
 ```mermaid
 graph LR
@@ -368,6 +382,10 @@ AI helped scaffold the automation and benchmarking harness. AI assistance made t
    https://webassembly.github.io/spec/core/
 3. Kubernetes Docs — "Resource Management for Pods and Containers"  
    https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+4. Jeff Dean & Luiz André Barroso — "The Tail at Scale" (Communications of the ACM, 2013)  
+   https://research.google/pubs/the-tail-at-scale/
+5. Google SRE Book — "Service Level Objectives"  
+   https://sre.google/sre-book/service-level-objectives/
 
 ---
 
