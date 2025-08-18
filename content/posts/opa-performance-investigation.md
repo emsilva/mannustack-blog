@@ -377,7 +377,7 @@ AI helped scaffold the automation and benchmarking harness. AI assistance made t
 ## References
 
 1. Open Policy Agent Documentation — "OPA Performance"  
-   https://www.openpolicyagent.org/docs/latest/performance/
+   https://www.openpolicyagent.org/docs/policy-performance
 2. WebAssembly Working Group — "WebAssembly Core Specification"  
    https://webassembly.github.io/spec/core/
 3. Kubernetes Docs — "Resource Management for Pods and Containers"  
